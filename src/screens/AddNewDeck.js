@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { Text, SafeAreaView, View, StyleSheet } from "react-native";
+import { SafeAreaView, StyleSheet } from "react-native";
+import { connect } from "react-redux";
+import * as propTypes from "prop-types";
+
+import { addNewDeck } from "../actions";
+import AddNewDeckForm from "../components/AddNewDeckForm";
 import BottomActionButton from "../components/BottomActionButton";
 
 class AddNewDeck extends Component {
@@ -7,15 +12,31 @@ class AddNewDeck extends Component {
     title: "Add New Deck"
   };
 
-  handleSaveNewDeck = () => {
-    this.props.navigation.navigate("Home");
+  static propTypes = {
+    addNewDeck: propTypes.func
+  };
+
+  static defaultProps = {
+    addNewDeck: () => {}
+  };
+
+  state = {
+    deckTitle: ""
+  };
+
+  handleAddNewDeck = () => {
+    this.props.addNewDeck({ title: this.state.deckTitle });
+  };
+
+  handleChangeTitle = deckTitle => {
+    this.setState({ deckTitle });
   };
 
   render() {
     return (
       <SafeAreaView style={[styles.container]}>
-        <View style={{ flex: 1 }}></View>
-        <BottomActionButton text="Save" onPress={this.handleSaveNewDeck} />
+        <AddNewDeckForm onChangeTitle={this.handleChangeTitle} />
+        <BottomActionButton text="Save" onPress={this.handleAddNewDeck} />
       </SafeAreaView>
     );
   }
@@ -23,8 +44,19 @@ class AddNewDeck extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    padding: 16
   }
 });
 
-export default AddNewDeck;
+const mapDispatchToProps = (dispatch, { navigation }) => ({
+  addNewDeck: ({ title }) => {
+    dispatch(addNewDeck({ title }));
+    navigation.navigate("Home");
+  }
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(AddNewDeck);

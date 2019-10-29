@@ -1,11 +1,10 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
-import {
-  createStackNavigator,
-  HeaderBackButton as HeaderButton
-} from "react-navigation-stack";
+import { createStackNavigator } from "react-navigation-stack";
+import { Provider } from "react-redux";
 
+import { store } from "./src/reducers/rootReducer";
 import AddNewDeck from "./src/screens/AddNewDeck";
 import DeckDetail from "./src/screens/DeckDetail";
 import Home from "./src/screens/Home";
@@ -35,7 +34,11 @@ const MainNavigator = createSwitchNavigator({
 const AppContainer = createAppContainer(MainNavigator);
 
 export default function App() {
-  return <AppContainer />;
+  return (
+    <Provider store={store}>
+      <AppContainer />
+    </Provider>
+  );
 }
 
 const styles = StyleSheet.create({

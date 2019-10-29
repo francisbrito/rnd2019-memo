@@ -44,7 +44,7 @@ class BottomActionButton extends Component {
     };
 
     return (
-      <TouchableOpacity style={style} onPress={onPress}>
+      <TouchableOpacity style={[styles.contentContainerStyle, style]} onPress={onPress}>
         <Animated.View style={[styles.container, animationStyle]}>
           <Text style={styles.text}>{text}</Text>
         </Animated.View>
@@ -54,6 +54,8 @@ class BottomActionButton extends Component {
 }
 
 const styles = StyleSheet.create({
+  contentContainerStyle: {
+  },
   container: {
     backgroundColor: "#fff",
     height: ACTION_BUTTON_HEIGHT,
