@@ -1,11 +1,11 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import logger from "redux-logger";
 
-import { addNewDeckReducer } from "./addNewDeckReducer";
+import { decksReducer } from "./decksReducer";
 
 const store = createStore(
   combineReducers({
-    addNewDeck: addNewDeckReducer
+    decks: decksReducer
   }),
   applyMiddleware(logger)
 );

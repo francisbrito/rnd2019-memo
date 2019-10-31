@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { View, StyleSheet, Text } from "react-native";
 
 export default class DeckDetail extends Component {
-  static navigationOptions = {
-    title: "Deck detail"
-  };
+  static navigationOptions = ({ navigation }) => ({
+    title: navigation.getParam("title", "Deck detail")
+  });
 
   render() {
     return (

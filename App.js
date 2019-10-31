@@ -9,26 +9,18 @@ import AddNewDeck from "./src/screens/AddNewDeck";
 import DeckDetail from "./src/screens/DeckDetail";
 import Home from "./src/screens/Home";
 
-const HomeNavigator = createStackNavigator(
-  {
-    Home: {
-      screen: Home,
-      navigationOptions: () => ({
-        headerBackTitle: "Cancel"
-      })
-    },
-    AddNewDeck: {
-      screen: AddNewDeck
-    }
+const HomeNavigator = createStackNavigator({
+  Home: {
+    screen: Home
   },
-  {
-    mode: "modal"
-  }
-);
+  AddNewDeck: {
+    screen: AddNewDeck
+  },
+  DeckDetail: { screen: DeckDetail }
+});
 
 const MainNavigator = createSwitchNavigator({
-  Home: HomeNavigator,
-  DeckDetail: { screen: DeckDetail }
+  Home: HomeNavigator
 });
 
 const AppContainer = createAppContainer(MainNavigator);
