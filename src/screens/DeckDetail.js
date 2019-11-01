@@ -1,34 +1,67 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { SafeAreaView, StyleSheet  } from "react-native";
+import * as propTypes from "prop-types";
+import { connect } from "react-redux";
+import * as r from "ramda";
 
-import Carousel from "react-native-snap-carousel";
+import BottomActionButton from "../components/BottomActionButton";
 
-import Card from "../components/Card";
-import CardList from '../components/CardList'
+import CardList from "../components/CardList";
 
-export default class DeckDetail extends Component {
+class DeckDetail extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: navigation.getParam("title", "Deck detail")
   });
 
+  static propTypes = {
+    cards: propTypes.arrayOf(
+      propTypes.shape({
+        id: propTypes.string.isRequired,
+        title: propTypes.string.isRequired
+      })
+    )
+  };
+
+  static defaultProps = {
+    cards: []
+  };
+
+  _handleShowAddCardView = () => {
+    this.props.navigation.navigate("AddCardView");
+  };
+
   render() {
-    const cards = [
-      { title: "Who you gonna call" },
-      { title: "What do we say to death?" }
-    ];
+    const { cards } = this.props;
 
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <CardList cards={cards} />
-      </View>
+        <BottomActionButton
+          text="Add card"
+          onPress={this._handleShowAddCardView}
+        />
+        <BottomActionButton
+          text="Start quiz"
+          isCallToAction
+          isDisabled={cards.length === 0}
+        />
+      </SafeAreaView>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
+    flex: 1
   }
 });
+
+const mapStateToProps = ({ decks }) => ({
+  cards: r.pipe(
+    r.pathOr({}, ["all", decks.selected, "cards"]),
+    r.values,
+    r.sortBy(r.prop("createdAt"))
+  )(decks)
+});
+
+export default connect(mapStateToProps)(DeckDetail);

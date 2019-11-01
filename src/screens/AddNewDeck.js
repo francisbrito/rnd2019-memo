@@ -36,7 +36,7 @@ class AddNewDeck extends Component {
     return (
       <SafeAreaView style={[styles.container]}>
         <AddNewDeckForm onChangeTitle={this.handleChangeTitle} />
-        <BottomActionButton text="Save" onPress={this.handleAddNewDeck} />
+        <BottomActionButton isDisabled={!this.state.deckTitle} text="Save" onPress={this.handleAddNewDeck} />
       </SafeAreaView>
     );
   }

@@ -16,6 +16,7 @@ class CardList extends Component {
 
     return (
       <Carousel
+        layout="tinder"
         containerCustomStyle={styles.container}
         contentContainerCustomStyle={styles.contentContainer}
         data={cards}

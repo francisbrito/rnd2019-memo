@@ -39,7 +39,11 @@ class Home extends Component {
     return (
       <SafeAreaView style={styles.container}>
         <DeckList decks={decks} onSelectDeck={this._handleSelectDeck} />
-        <BottomActionButton text="Add deck" onPress={this._handleAddNewDeck} />
+        <BottomActionButton
+          isCallToAction
+          text="Add deck"
+          onPress={this._handleAddNewDeck}
+        />
       </SafeAreaView>
     );
   }

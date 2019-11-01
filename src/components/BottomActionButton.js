@@ -6,12 +6,22 @@ import {
   TouchableOpacity,
   Easing
 } from "react-native";
+import * as propTypes from "prop-types";
 
 export const ACTION_BUTTON_HEIGHT = 56;
 
 class BottomActionButton extends Component {
   static defaultProps = {
-    onPress: () => {}
+    onPress: () => {},
+    isCallToAction: false,
+    isDisabled: false
+  };
+
+  static propTypes = {
+    text: propTypes.string.isRequired,
+    onPress: propTypes.func,
+    isCallToAction: propTypes.bool,
+    isDisabled: propTypes.bool
   };
 
   opacity = new Animated.Value(0);
@@ -19,21 +29,19 @@ class BottomActionButton extends Component {
 
   componentDidMount() {
     Animated.parallel([
-      Animated.timing(this.displacement, {
-        toValue: 0,
-        duration: 100,
-        easing: Easing.in(Easing.ease)
+      Animated.spring(this.displacement, {
+        toValue: 0
       }),
       Animated.timing(this.opacity, {
         toValue: 1,
-        duration: 200,
+        duration: 300,
         easing: Easing.in(Easing.ease)
       })
     ]).start();
   }
 
   render() {
-    const { onPress, text, style } = this.props;
+    const { onPress, text, style, isCallToAction, isDisabled } = this.props;
     const animationStyle = {
       opacity: this.opacity,
       transform: [
@@ -44,9 +52,21 @@ class BottomActionButton extends Component {
     };
 
     return (
-      <TouchableOpacity style={[styles.contentContainerStyle, style]} onPress={onPress}>
-        <Animated.View style={[styles.container, animationStyle]}>
-          <Text style={styles.text}>{text}</Text>
+      <TouchableOpacity
+        style={[styles.contentContainerStyle, isDisabled ? styles.disabled : {}, style]}
+        disabled={isDisabled}
+        onPress={isDisabled ? null : onPress}
+      >
+        <Animated.View
+          style={[
+            styles.container,
+            isCallToAction ? styles.callToAction : {},
+            animationStyle
+          ]}
+        >
+          <Text style={[styles.text, isCallToAction ? { color: "#fff" } : {}]}>
+            {text}
+          </Text>
         </Animated.View>
       </TouchableOpacity>
     );
@@ -54,13 +74,18 @@ class BottomActionButton extends Component {
 }
 
 const styles = StyleSheet.create({
-  contentContainerStyle: {
+  callToAction: {
+    backgroundColor: "#00b000"
   },
+  contentContainerStyle: {},
   container: {
     backgroundColor: "#fff",
     height: ACTION_BUTTON_HEIGHT,
     justifyContent: "center",
     alignItems: "center"
+  },
+  disabled: {
+    opacity: 0.333,
   },
   text: {
     fontSize: 18,
