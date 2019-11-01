@@ -52,7 +52,9 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = ({ decks }) => ({
-  decks: Object.values(decks.all).sort((x, y) => y.createdAt - x.createdAt)
+  decks: Object.values(decks.all)
+    .sort((x, y) => y.createdAt - x.createdAt)
+    .map(d => ({ ...d, cardCount: Object.values(d.cards).length }))
 });
 
 const mapDispatchToProps = (dispatch, { navigation }) => ({

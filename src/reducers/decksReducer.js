@@ -14,7 +14,7 @@ export function decksReducer(state = INITIAL, action) {
       const id = uuid.v4();
       return r.set(
         r.lensPath(["all", id]),
-        { ...action.payload, id, createdAt: Date.now() },
+        { ...action.payload, id, createdAt: Date.now(), cards: {} },
         state
       );
     case types.SELECT_DECK:

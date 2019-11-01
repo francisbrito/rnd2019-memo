@@ -22,7 +22,8 @@ class DeckList extends Component {
     decks: propTypes.arrayOf(
       propTypes.shape({
         id: propTypes.string.isRequired,
-        title: propTypes.string.isRequired
+        title: propTypes.string.isRequired,
+        cardCount: propTypes.number.isRequired
       })
     ),
     onSelectDeck: propTypes.func
@@ -35,6 +36,9 @@ class DeckList extends Component {
     >
       <View style={styles.deck}>
         <Text style={styles.deckTitle}>{item.title}</Text>
+        <View style={styles.cardCountContainer}>
+          <Text style={styles.cardCount}>{item.cardCount}</Text>
+        </View>
       </View>
     </TouchableOpacity>
   );
@@ -64,12 +68,23 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
+  cardCount: {},
+  cardCountContainer: {
+    backgroundColor: "#dadada",
+    height: 32,
+    width: 32,
+    borderRadius: 32,
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: "auto"
+  },
   deck: {
     height: DECK_HEIGHT,
-    justifyContent: "center",
-    padding: 8,
+    padding: 16,
     borderBottomWidth: 1,
-    borderBottomColor: "rgba(0, 0, 0, .1)"
+    borderBottomColor: "rgba(0, 0, 0, .1)",
+    flexDirection: "row",
+    alignItems: "center"
   },
   deckTitle: {
     fontSize: 18
