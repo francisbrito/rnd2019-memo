@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { SafeAreaView, StyleSheet  } from "react-native";
+import { SafeAreaView, StyleSheet } from "react-native";
 import * as propTypes from "prop-types";
 import { connect } from "react-redux";
 import * as r from "ramda";
@@ -27,7 +27,7 @@ class DeckDetail extends Component {
   };
 
   _handleShowAddCardView = () => {
-    this.props.navigation.navigate("AddCardView");
+    this.props.navigation.navigate("AddNewCard");
   };
 
   render() {

@@ -5,6 +5,7 @@ import { createStackNavigator } from "react-navigation-stack";
 import { Provider } from "react-redux";
 
 import { store } from "./src/reducers/rootReducer";
+import AddNewCard from "./src/screens/AddNewCard";
 import AddNewDeck from "./src/screens/AddNewDeck";
 import DeckDetail from "./src/screens/DeckDetail";
 import Home from "./src/screens/Home";
@@ -16,7 +17,10 @@ const HomeNavigator = createStackNavigator({
   AddNewDeck: {
     screen: AddNewDeck
   },
-  DeckDetail: { screen: DeckDetail }
+  DeckDetail: { screen: DeckDetail },
+  AddNewCard: {
+    screen: AddNewCard
+  },
 });
 
 const MainNavigator = createSwitchNavigator({
