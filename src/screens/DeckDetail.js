@@ -1,12 +1,14 @@
 import React, { Component } from "react";
-import { SafeAreaView, StyleSheet } from "react-native";
+import { Dimensions, SafeAreaView, StyleSheet } from "react-native";
 import * as propTypes from "prop-types";
 import { connect } from "react-redux";
 import * as r from "ramda";
 
 import BottomActionButton from "../components/BottomActionButton";
-
 import CardList from "../components/CardList";
+import QuizProgressBar from "../components/QuizProgressBar";
+
+const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 class DeckDetail extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -26,16 +28,32 @@ class DeckDetail extends Component {
     cards: []
   };
 
+  state = {
+    progress: 0
+  };
+
   _handleShowAddCardView = () => {
     this.props.navigation.navigate("AddNewCard");
   };
 
+  _handleChangeTopCard = index => {
+    this.setState({
+      progress:
+        this.props.cards.length > 0 ? (index + 1) / this.props.cards.length : 0
+    });
+  };
+
   render() {
     const { cards } = this.props;
+    const { progress } = this.state;
 
     return (
       <SafeAreaView style={styles.container}>
-        <CardList cards={cards} />
+        <QuizProgressBar maxWidth={SCREEN_WIDTH} progress={progress} />
+        <CardList
+          cards={cards}
+          onChangeSelectedCard={this._handleChangeTopCard}
+        />
         <BottomActionButton
           text="Add card"
           onPress={this._handleShowAddCardView}
