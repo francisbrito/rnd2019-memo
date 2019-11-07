@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { View, SafeAreaView, StyleSheet, Text, TextInput } from "react-native";
 import * as propTypes from "prop-types";
 import { connect } from "react-redux";
+import * as r from "ramda";
 
 import { addNewCard } from "../actions";
 
@@ -13,7 +14,10 @@ class AddNewCard extends Component {
   });
 
   static propTypes = {
-    addCard: propTypes.func
+    addCard: propTypes.func,
+    selectedDeck: propTypes.shape({
+      id: propTypes.string.isRequired
+    })
   };
   static defaultProps = {
     addCard: () => {}
@@ -30,7 +34,7 @@ class AddNewCard extends Component {
   };
 
   _handleAddNewCard = () => {
-    this.props.addNewCard(this.state);
+    this.props.addNewCard({ ...this.state, deck: this.props.selectedDeck });
   };
 
   render() {
@@ -107,14 +111,18 @@ const styles = StyleSheet.create({
   }
 });
 
+const mapStateToProps = ({ decks }) => ({
+  selectedDeck: r.path(["all", decks.selected], decks)
+});
+
 const mapDispatchToProps = (dispatch, { navigation }) => ({
-  addNewCard: ({ title, rightAnswer, wrongAnswer }) => {
-    dispatch(addNewCard({ title, rightAnswer, wrongAnswer }));
+  addNewCard: ({ title, rightAnswer, wrongAnswer, deck }) => {
+    dispatch(addNewCard({ title, rightAnswer, wrongAnswer, deck }));
     navigation.goBack();
   }
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(AddNewCard);

@@ -12,28 +12,15 @@ export function decksReducer(state = INITIAL, action) {
   switch (action.type) {
     case types.ADD_NEW_DECK: {
       const id = uuid.v4();
+      const newDeck = { ...action.payload, id, createdAt: Date.now() };
 
-      return r.set(
-        r.lensPath(["all", id]),
-        { ...action.payload, id, createdAt: Date.now(), cards: {} },
-        state
-      );
+      return r.set(r.lensPath(["all", id]), newDeck, state);
     }
+
     case types.SELECT_DECK:
+      console.log(r.set(r.lensProp("selected"), action.payload.id, state))
       return r.set(r.lensProp("selected"), action.payload.id, state);
-    case types.ADD_NEW_CARD: {
-      const id = uuid.v4();
 
-      return r.set(
-        r.lensPath(["all", state.selected, "cards", id]),
-        {
-          ...action.payload,
-          id,
-          createdAt: Date.now()
-        },
-        state
-      );
-    }
     default:
       return state;
   }

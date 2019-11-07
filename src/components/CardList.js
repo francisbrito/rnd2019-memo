@@ -21,15 +21,22 @@ class CardList extends Component {
     onChangeSelectedCard: () => {}
   };
 
+  _carousel = null;
+
   _renderItem = ({ item }) => {
     return <Card title={item.title} />;
   };
 
+  snapToNextCard() {
+    this._carousel.snapToNext();
+  }
+
   render() {
-    const { cards, onChangeSelectedCard } = this.props;
+    const { cards, onChangeSelectedCard, ...otherProps } = this.props;
 
     return (
       <Carousel
+        {...otherProps}
         layout="tinder"
         containerCustomStyle={styles.container}
         contentContainerCustomStyle={styles.contentContainer}

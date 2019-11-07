@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { SafeAreaView, StyleSheet } from "react-native";
 import { connect } from "react-redux";
 import * as propTypes from "prop-types";
+import * as r from "ramda";
 
 import { selectDeck } from "../actions";
 import BottomActionButton from "../components/BottomActionButton";
@@ -55,10 +56,13 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = ({ decks }) => ({
+const mapStateToProps = ({ decks, cards }) => ({
   decks: Object.values(decks.all)
     .sort((x, y) => y.createdAt - x.createdAt)
-    .map(d => ({ ...d, cardCount: Object.values(d.cards).length }))
+    .map(d => ({
+      ...d,
+      cardCount: Object.values(r.pathOr({}, ["all", d.id], cards)).length
+    }))
 });
 
 const mapDispatchToProps = (dispatch, { navigation }) => ({
