@@ -165,6 +165,7 @@ class DeckDetail extends Component {
               cards={cards}
               onChangeSelectedCard={this._handleSelectCard}
               scrollEnabled={false}
+              enableShowAnswer={quizRunning}
             />
           </Fragment>
         ) : (

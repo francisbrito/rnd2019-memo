@@ -9,22 +9,31 @@ const { width: WINDOW_WIDTH } = Dimensions.get("window");
 
 class CardList extends Component {
   static propTypes = {
+    enableShowAnswer: propTypes.bool,
     cards: propTypes.arrayOf(
       propTypes.shape({
         id: propTypes.string.isRequired,
-        title: propTypes.string.isRequired
+        title: propTypes.string.isRequired,
+        answer: propTypes.string.isRequired
       })
     ),
     onChangeSelectedCard: propTypes.func
   };
   static defaultProps = {
+    enableShowAnswer: false,
     onChangeSelectedCard: () => {}
   };
 
   _carousel = null;
 
   _renderItem = ({ item }) => {
-    return <Card title={item.title} />;
+    return (
+      <Card
+        title={item.title}
+        answer={item.answer}
+        enableShowAnswer={this.props.enableShowAnswer}
+      />
+    );
   };
 
   snapToNext = () => {
@@ -36,7 +45,12 @@ class CardList extends Component {
   };
 
   render() {
-    const { cards, onChangeSelectedCard, ...otherProps } = this.props;
+    const {
+      cards,
+      onChangeSelectedCard,
+      enableShowAnswer,
+      ...otherProps
+    } = this.props;
 
     return (
       <Carousel

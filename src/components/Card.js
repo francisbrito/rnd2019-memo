@@ -1,27 +1,70 @@
 import React, { Component } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { TouchableWithoutFeedback, Text, View, StyleSheet } from "react-native";
 import * as propTypes from "prop-types";
+import { MaterialCommunityIcons as Icon } from "@expo/vector-icons";
+import Flippable from "react-native-card-flip";
 
 export const CARD_HEIGHT = 350;
 export const CARD_WIDTH = 300;
 
 class Card extends Component {
   static propTypes = {
-    title: propTypes.string.isRequired
+    title: propTypes.string.isRequired,
+    answer: propTypes.string.isRequired,
+    enableShowAnswer: propTypes.bool
+  };
+
+  static defaultProps = {
+    enableShowAnswer: false
+  };
+
+  _flippable = null;
+
+  _handleToggleAnswer = () => {
+    if (this._flippable) {
+      this._flippable.flip();
+    }
   };
 
   render() {
-    const { title } = this.props;
+    const { title, answer, enableShowAnswer } = this.props;
 
     return (
-      <View style={[styles.container]}>
-        <Text style={styles.title}>{title}</Text>
-      </View>
+      <Flippable style={styles.flippable} ref={f => (this._flippable = f)}>
+        <TouchableWithoutFeedback
+          onPress={this._handleToggleAnswer}
+          disabled={!enableShowAnswer}
+        >
+          <View style={styles.container}>
+            <Text style={styles.title}>{title}</Text>
+            <Icon name="swap-horizontal" style={styles.icon} size={24} />
+          </View>
+        </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback
+          onPress={this._handleToggleAnswer}
+          disabled={!enableShowAnswer}
+        >
+          <View style={styles.container}>
+            <Text style={styles.title}>{answer}</Text>
+            <Icon name="swap-horizontal" style={styles.icon} size={24} />
+          </View>
+        </TouchableWithoutFeedback>
+      </Flippable>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  icon: {
+    position: "absolute",
+    right: 8,
+    top: 8,
+    color: "rgba(0, 0, 0, .25)"
+  },
+  flippable: {
+    height: CARD_HEIGHT,
+    width: CARD_WIDTH
+  },
   container: {
     borderRadius: 8,
     backgroundColor: "#fff",
