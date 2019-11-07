@@ -3,7 +3,8 @@ export const types = Object.freeze({
   SELECT_DECK: "SELECT_DECK",
   ADD_NEW_CARD: "ADD_NEW_CARD",
   SELECT_CARD: "SELECT_CARD",
-  SELECT_ANSWER: "SELECT_ANSWER"
+  SELECT_ANSWER: "SELECT_ANSWER",
+  RESET_ANSWERS: "RESET_ANSWERS"
 });
 
 export const addNewDeck = ({ title }) => ({
@@ -16,13 +17,12 @@ export const selectDeck = ({ id }) => ({
   payload: { id }
 });
 
-export const addNewCard = ({ title, rightAnswer, wrongAnswer, deck }) => ({
+export const addNewCard = ({ title, answer, deck }) => ({
   type: types.ADD_NEW_CARD,
   payload: {
     deckId: deck.id,
     title,
-    rightAnswer,
-    wrongAnswer
+    answer
   }
 });
 
@@ -31,7 +31,11 @@ export const selectCard = ({ id, deck }) => ({
   payload: { id, deckId: deck.id }
 });
 
-export const selectAnswer = ({ deck, card, answer }) => ({
+export const selectAnswer = ({ deck, card, choice }) => ({
   type: types.SELECT_ANSWER,
-  payload: { cardId: card.id, deckId: deck.id, answer }
+  payload: { cardId: card.id, deckId: deck.id, choice }
+});
+
+export const resetAnswers = () => ({
+  type: types.RESET_ANSWERS
 });

@@ -9,7 +9,11 @@ export function answersReducer(state = INITIAL, action) {
     case types.SELECT_ANSWER: {
       const { deckId, cardId } = action.payload;
 
-      return r.set(r.lensPath([deckId, cardId]), action.payload.answer, state);
+      return r.set(r.lensPath([deckId, cardId]), action.payload.choice, state);
+    }
+
+    case types.RESET_ANSWERS: {
+      return INITIAL;
     }
 
     default:

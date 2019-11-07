@@ -25,12 +25,7 @@ class AddNewCard extends Component {
 
   state = {
     title: "",
-    rightAnswer: "",
-    wrongAnswer: ""
-  };
-
-  _handleChangeCardTitle = title => {
-    this.setState({ title });
+    answer: ""
   };
 
   _handleAddNewCard = () => {
@@ -38,14 +33,14 @@ class AddNewCard extends Component {
   };
 
   render() {
-    const { title, rightAnswer, wrongAnswer } = this.state;
-    const isFormInvalid = !(title && rightAnswer && wrongAnswer);
+    const { title, answer } = this.state;
+    const isFormInvalid = !(title && answer);
 
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.formContainer}>
           <View style={styles.field}>
-            <Text style={styles.label}>Title</Text>
+            <Text style={styles.label}>Question</Text>
             <TextInput
               style={styles.input}
               placeholder="e.g: What's the largest planet in the solar system?"
@@ -53,19 +48,11 @@ class AddNewCard extends Component {
             />
           </View>
           <View style={styles.field}>
-            <Text style={styles.label}>Right answer</Text>
+            <Text style={styles.label}>Answer</Text>
             <TextInput
               style={styles.input}
               placeholder="e.g: Jupiter"
-              onChangeText={this._handleChangeField("rightAnswer")}
-            />
-          </View>
-          <View style={styles.field}>
-            <Text style={styles.label}>Wrong answer</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="e.g: Venus"
-              onChangeText={this._handleChangeField("wrongAnswer")}
+              onChangeText={this._handleChangeField("answer")}
             />
           </View>
         </View>
@@ -116,8 +103,8 @@ const mapStateToProps = ({ decks }) => ({
 });
 
 const mapDispatchToProps = (dispatch, { navigation }) => ({
-  addNewCard: ({ title, rightAnswer, wrongAnswer, deck }) => {
-    dispatch(addNewCard({ title, rightAnswer, wrongAnswer, deck }));
+  addNewCard: ({ title, answer, deck }) => {
+    dispatch(addNewCard({ title, answer, deck }));
     navigation.goBack();
   }
 });

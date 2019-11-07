@@ -27,9 +27,13 @@ class CardList extends Component {
     return <Card title={item.title} />;
   };
 
-  snapToNextCard() {
+  snapToNext = () => {
     this._carousel.snapToNext();
-  }
+  };
+
+  scrollToIndex = index => {
+    this._carousel.snapToItem(index, true, false);
+  };
 
   render() {
     const { cards, onChangeSelectedCard, ...otherProps } = this.props;
@@ -37,6 +41,7 @@ class CardList extends Component {
     return (
       <Carousel
         {...otherProps}
+        ref={ref => (this._carousel = ref)}
         layout="tinder"
         containerCustomStyle={styles.container}
         contentContainerCustomStyle={styles.contentContainer}
